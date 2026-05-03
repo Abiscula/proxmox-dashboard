@@ -22,11 +22,29 @@ export async function getDashboard(req, res) {
   try {
     const [vms, containers] = await Promise.all([getVMs(), getContainers()]);
 
+    const formattedVMs = vms.map((vm) => ({
+      id: vm.vmid,
+      name: vm.name,
+      type: "vm",
+      status: vm.status,
+      cpu: vm.cpu,
+      memory: vm.mem,
+    }));
+
+    const formattedContainers = containers.map((ct) => ({
+      id: ct.vmid,
+      name: ct.name,
+      type: "container",
+      status: ct.status,
+      cpu: ct.cpu,
+      memory: ct.mem,
+    }));
+
     res.json({
-      vms,
-      containers,
+      services: [...formattedVMs, ...formattedContainers],
     });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Erro no dashboard" });
   }
 }
