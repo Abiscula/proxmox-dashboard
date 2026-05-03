@@ -59,11 +59,3 @@ export interface IProxmoxNodeStatus {
     shared: number;
   };
 }
-
-export interface INodeOverview {
-  cpuUsage: number;
-  memoryUsage: number;
-  memoryTotal: number;
-  memoryUsed: number;
-  uptime: number;
-}
