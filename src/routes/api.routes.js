@@ -1,9 +1,5 @@
 import express from "express";
-import {
-  getVMsController,
-  getContainersController,
-  getDashboard,
-} from "../controllers/proxmox.controller.js";
+import { getDashboard } from "../controllers/controller.js";
 
 const router = express.Router();
 
