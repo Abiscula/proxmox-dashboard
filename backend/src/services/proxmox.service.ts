@@ -5,7 +5,7 @@ import { isProxmoxResponse } from "../guards/proxmox.guard.js";
 import { IProxmoxVM } from "../interfaces/proxmox-vm.interface.js";
 import { IProxmoxContainer } from "../interfaces/proxmox-lxc.interface.js";
 import { IProxmoxNodeStatus } from "../interfaces/proxmox-status.interface.js";
-import { mapNodeStatus } from "../mappers/proxmox-status.mapper.js";
+import { IProxmoxStorage } from "../interfaces/proxmox-storage.interface.js";
 
 dotenv.config();
 const agent = new https.Agent({ rejectUnauthorized: false });
@@ -60,9 +60,24 @@ export async function getProxmoxStatus() {
     agent,
   });
 
-  const response: any = await res.json();
+  const response = await res.json();
 
   if (!isProxmoxResponse<IProxmoxNodeStatus>(response)) {
+    throw new Error("Resposta inválida");
+  }
+
+  return response.data;
+}
+
+export async function getProxmoxStorage() {
+  const res = await fetch(`${PROXMOX_URL}/api2/json/nodes/${NODE}/storage`, {
+    headers,
+    agent,
+  });
+
+  const response = await res.json();
+
+  if (!isProxmoxResponse<IProxmoxStorage>(response)) {
     throw new Error("Resposta inválida");
   }
 
