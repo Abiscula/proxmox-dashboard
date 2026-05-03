@@ -5,6 +5,6 @@ import apiRotes from "./api.routes.js";
 const router = express.Router();
 
 router.use("/proxmox", proxmoxRoutes);
-router.use("/dashboard", apiRotes);
+router.use("/", apiRotes);
 
 export default router;

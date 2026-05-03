@@ -4,7 +4,13 @@ import {
 } from "../interfaces/dashboard.interface.js";
 import { IProxmoxContainer } from "../interfaces/proxmox-lxc.interface.js";
 import { IProxmoxVM } from "../interfaces/proxmox-vm.interface.js";
-import { getVMs, getContainers } from "../services/proxmox.service.js";
+import { overviewStatusMapper } from "../mappers/overview-status.mapper.js";
+import {
+  getVMs,
+  getContainers,
+  getProxmoxStatus,
+  getProxmoxStorage,
+} from "../services/proxmox.service.js";
 import { Request, Response } from "express";
 
 export async function getDashboard(
@@ -41,5 +47,20 @@ export async function getDashboard(
     });
   } catch (err) {
     res.status(500).json({ error: "Erro no dashboard" });
+  }
+}
+
+export async function getOverview(req: Request, res: Response) {
+  try {
+    const [status, storage] = await Promise.all([
+      getProxmoxStatus(),
+      getProxmoxStorage(),
+    ]);
+
+    const overview = overviewStatusMapper(status, storage);
+
+    res.json(overview);
+  } catch (err) {
+    res.status(500).json({ error: "Erro ao buscar overview" });
   }
 }
