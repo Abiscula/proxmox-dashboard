@@ -25,7 +25,7 @@ export default function Card({ service }: Props) {
       <CardBody>
         <Metric>ID: {service.id}</Metric>
         <Metric>Tipo: {formatServiceType(service.type)}</Metric>
-        <Metric>CPU: {(service.cpu * 100).toFixed(1)}%</Metric>
+        <Metric>CPU: {service.cpu}%</Metric>
         <Metric>Memória RAM: {service.memory} MB</Metric>
         <Metric>Uptime: {formatUptime(service.uptime)}</Metric>
       </CardBody>
