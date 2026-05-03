@@ -1,3 +1,4 @@
+import { bytesToMB } from "../helper/formatBytes.js";
 import {
   IDashboardResponse,
   IDashboardService,
@@ -26,7 +27,7 @@ export async function getDashboard(
       type: "vm",
       status: vm.status,
       cpu: Number((vm.cpu * 100).toFixed(1)),
-      memory: Math.round(vm.mem / 1024 / 1024),
+      memory: bytesToMB(vm.mem),
       uptime: vm.uptime,
     }));
 
@@ -37,7 +38,7 @@ export async function getDashboard(
         type: "container",
         status: ct.status,
         cpu: Number((ct.cpu * 100).toFixed(1)),
-        memory: Math.round(ct.mem / 1024 / 1024),
+        memory: bytesToMB(ct.mem),
         uptime: ct.uptime,
       }),
     );
