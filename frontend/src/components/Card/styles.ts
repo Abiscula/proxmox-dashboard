@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import type { ServiceStatus } from "../../interfaces";
 
 export const CardContainer = styled.div`
   background: ${({ theme }) => theme.colors.surface};
@@ -27,7 +28,7 @@ export const CardTitle = styled.h2`
   color: ${({ theme }) => theme.colors.text.primary};
 `;
 
-export const Status = styled.span<{ status: "running" | "stopped" }>`
+export const Status = styled.span<{ status: ServiceStatus }>`
   font-size: 0.75rem;
   padding: 4px 8px;
   border-radius: 6px;

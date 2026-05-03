@@ -1,6 +1,6 @@
-type ServiceType = "vm" | "container";
+export type ServiceType = "vm" | "container";
 
-type ServiceStatus = "running" | "stopped";
+export type ServiceStatus = "running" | "stopped";
 
 export interface IService {
   id: number;

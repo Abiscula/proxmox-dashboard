@@ -1,3 +1,4 @@
+import { formatServiceType } from "../../formatter/formatServiceType";
 import type { IService } from "../../interfaces";
 import {
   CardContainer,
@@ -21,7 +22,7 @@ export default function Card({ service }: Props) {
       </CardHeader>
 
       <CardBody>
-        <Metric>Tipo: {service.type}</Metric>
+        <Metric>Tipo: {formatServiceType(service.type)}</Metric>
         <Metric>CPU: {(service.cpu * 100).toFixed(1)}%</Metric>
         <Metric>Memória RAM: {service.memory} MB</Metric>
         <Metric>Uptime: {Math.floor(service.uptime / 60)} min</Metric>
