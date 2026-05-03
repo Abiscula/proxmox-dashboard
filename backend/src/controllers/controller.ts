@@ -25,7 +25,7 @@ export async function getDashboard(
       name: vm.name,
       type: "vm",
       status: vm.status,
-      cpu: vm.cpu,
+      cpu: Number((vm.cpu * 100).toFixed(1)),
       memory: Math.round(vm.mem / 1024 / 1024),
       uptime: vm.uptime,
     }));
@@ -36,7 +36,7 @@ export async function getDashboard(
         name: ct.name,
         type: "container",
         status: ct.status,
-        cpu: ct.cpu,
+        cpu: Number((ct.cpu * 100).toFixed(1)),
         memory: Math.round(ct.mem / 1024 / 1024),
         uptime: ct.uptime,
       }),

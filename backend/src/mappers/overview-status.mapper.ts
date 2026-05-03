@@ -6,7 +6,7 @@ import { IProxmoxStorage } from "../interfaces/proxmox-storage.interface.js";
 function mapCpuAndMemory(status: IProxmoxNodeStatus) {
   return {
     // Uso total de CPU do host (convertido para %)
-    cpuUsage: Number((status.cpu * 100).toFixed(2)),
+    cpuUsage: Number((status.cpu * 100).toFixed(1)),
 
     // Percentual de memória utilizada
     memoryUsage: Number(
