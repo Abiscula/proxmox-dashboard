@@ -2,12 +2,12 @@ export interface INodeOverview {
   cpuUsage: number;
 
   memoryUsage: number;
-  memoryTotal: number;
-  memoryUsed: number;
+  memoryTotal: string;
+  memoryUsed: string;
 
   storageUsage: number;
-  storageTotal: number;
-  storageUsed: number;
+  storageTotal: string;
+  storageUsed: string;
 
   uptime: number;
 }
