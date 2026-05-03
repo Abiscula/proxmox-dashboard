@@ -4,6 +4,7 @@ import type { IService } from "../../interfaces";
 
 import { Page, Container, Header, Grid, EmptyState, Title } from "./styles";
 import Card from "../../components/Card/Card";
+import { orderServices } from "../../helper/orderServices";
 
 export default function Dashboard() {
   const [services, setServices] = useState<IService[]>([]);
@@ -11,7 +12,7 @@ export default function Dashboard() {
   useEffect(() => {
     getDashboard().then((data) => {
       if ("services" in data) {
-        setServices(data.services);
+        setServices(orderServices(data.services));
       }
     });
   }, []);
