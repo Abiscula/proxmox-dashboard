@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import { isProxmoxResponse } from "../guards/proxmox.guard.js";
 import { IProxmoxVM } from "../interfaces/proxmox-vm.interface.js";
 import { IProxmoxContainer } from "../interfaces/proxmox-lxc.interface.js";
+import { IProxmoxNodeStatus } from "../interfaces/proxmox-status.interface.js";
+import { mapNodeStatus } from "../mappers/proxmox-status.mapper.js";
 
 dotenv.config();
 const agent = new https.Agent({ rejectUnauthorized: false });
@@ -46,6 +48,21 @@ export async function getContainers() {
   const response = await res.json();
 
   if (!isProxmoxResponse<IProxmoxContainer>(response)) {
+    throw new Error("Resposta inválida");
+  }
+
+  return response.data;
+}
+
+export async function getProxmoxStatus() {
+  const res = await fetch(`${PROXMOX_URL}/api2/json/nodes/${NODE}/status`, {
+    headers,
+    agent,
+  });
+
+  const response: any = await res.json();
+
+  if (!isProxmoxResponse<IProxmoxNodeStatus>(response)) {
     throw new Error("Resposta inválida");
   }
 
