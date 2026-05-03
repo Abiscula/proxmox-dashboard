@@ -1,6 +1,7 @@
 import { getVMs, getContainers } from "../services/proxmox.service.js";
+import { Request, Response } from "express";
 
-export async function getVMsController(req: any, res: any) {
+export async function getVMsController(req: Request, res: Response) {
   try {
     const vms = await getVMs();
     res.json(vms);
@@ -9,7 +10,7 @@ export async function getVMsController(req: any, res: any) {
   }
 }
 
-export async function getContainersController(req: any, res: any) {
+export async function getContainersController(req: Request, res: Response) {
   try {
     const containers = await getContainers();
     res.json(containers);

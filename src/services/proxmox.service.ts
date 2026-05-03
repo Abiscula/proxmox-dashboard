@@ -1,6 +1,9 @@
 import fetch from "node-fetch";
 import https from "https";
 import dotenv from "dotenv";
+import { isProxmoxResponse } from "../guards/proxmox.guard.js";
+import { IProxmoxVM } from "../interfaces/proxmox-vm.interface.js";
+import { IProxmoxContainer } from "../interfaces/proxmox-lxc.interface.js";
 
 dotenv.config();
 const agent = new https.Agent({ rejectUnauthorized: false });
@@ -25,8 +28,13 @@ export async function getVMs() {
     agent,
   });
 
-  const data: any = await res.json();
-  return data.data;
+  const response = await res.json();
+
+  if (!isProxmoxResponse<IProxmoxVM>(response)) {
+    throw new Error("Resposta inválida");
+  }
+
+  return response.data;
 }
 
 export async function getContainers() {
@@ -35,6 +43,11 @@ export async function getContainers() {
     agent,
   });
 
-  const data: any = await res.json();
-  return data.data;
+  const response = await res.json();
+
+  if (!isProxmoxResponse<IProxmoxContainer>(response)) {
+    throw new Error("Resposta inválida");
+  }
+
+  return response.data;
 }
