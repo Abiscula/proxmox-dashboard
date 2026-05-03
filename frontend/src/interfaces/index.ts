@@ -1,18 +1,12 @@
-export interface IServiceType {
-  vm: "vm";
-  container: "container";
-}
+type ServiceType = "vm" | "container";
 
-export interface IServiceStatus {
-  running: "running";
-  stopped: "stopped";
-}
+type ServiceStatus = "running" | "stopped";
 
 export interface IService {
   id: number;
   name: string;
-  type: IServiceType;
-  status: "running" | "stopped";
+  type: ServiceType;
+  status: ServiceStatus;
   cpu: number;
   memory: number;
   uptime: number;

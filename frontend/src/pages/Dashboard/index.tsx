@@ -3,6 +3,7 @@ import { getDashboard } from "../../services/api";
 import type { IService } from "../../interfaces";
 
 import { Page, Container, Header, Grid, EmptyState, Title } from "./styles";
+import Card from "../../components/Card/Card";
 
 export default function Dashboard() {
   const [services, setServices] = useState<IService[]>([]);
@@ -27,7 +28,7 @@ export default function Dashboard() {
         ) : (
           <Grid>
             {services.map((service) => (
-              <div key={service.id}>{service.name}</div>
+              <Card key={service.id} service={service} />
             ))}
           </Grid>
         )}
