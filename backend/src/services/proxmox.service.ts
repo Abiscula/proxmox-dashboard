@@ -24,7 +24,7 @@ const headers = {
   Pragma: "no-cache",
 };
 
-export async function getVMs() {
+export async function getVMs(): Promise<IProxmoxVM[]> {
   const res = await fetch(`${PROXMOX_URL}/api2/json/nodes/${NODE}/qemu`, {
     headers,
     agent,
@@ -32,14 +32,14 @@ export async function getVMs() {
 
   const response = await res.json();
 
-  if (!isProxmoxResponse<IProxmoxVM>(response)) {
+  if (!isProxmoxResponse<IProxmoxVM[]>(response)) {
     throw new Error("Resposta inválida");
   }
 
   return response.data;
 }
 
-export async function getContainers() {
+export async function getContainers(): Promise<IProxmoxContainer[]> {
   const res = await fetch(`${PROXMOX_URL}/api2/json/nodes/${NODE}/lxc`, {
     headers,
     agent,
@@ -47,14 +47,14 @@ export async function getContainers() {
 
   const response = await res.json();
 
-  if (!isProxmoxResponse<IProxmoxContainer>(response)) {
+  if (!isProxmoxResponse<IProxmoxContainer[]>(response)) {
     throw new Error("Resposta inválida");
   }
 
   return response.data;
 }
 
-export async function getProxmoxStatus() {
+export async function getProxmoxStatus(): Promise<IProxmoxNodeStatus> {
   const res = await fetch(`${PROXMOX_URL}/api2/json/nodes/${NODE}/status`, {
     headers,
     agent,
@@ -69,7 +69,7 @@ export async function getProxmoxStatus() {
   return response.data;
 }
 
-export async function getProxmoxStorage() {
+export async function getProxmoxStorage(): Promise<IProxmoxStorage[]> {
   const res = await fetch(`${PROXMOX_URL}/api2/json/nodes/${NODE}/storage`, {
     headers,
     agent,
@@ -77,7 +77,7 @@ export async function getProxmoxStorage() {
 
   const response = await res.json();
 
-  if (!isProxmoxResponse<IProxmoxStorage>(response)) {
+  if (!isProxmoxResponse<IProxmoxStorage[]>(response)) {
     throw new Error("Resposta inválida");
   }
 
