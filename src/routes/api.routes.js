@@ -7,7 +7,6 @@ import {
 
 const router = express.Router();
 
-router.get("/vms", getVMsController);
-router.get("/containers", getContainersController);
+router.get("/", getDashboard);
 
 export default router;
