@@ -5,9 +5,10 @@ import routes from "./routes/routes.js";
 dotenv.config();
 
 const app = express();
+const PORT = 3000;
 
 app.use("/api", routes);
 
-app.listen(3000, () => {
-  console.log("Server rodando em http://localhost:3000");
+app.listen(PORT, () => {
+  console.log(`Server rodando em http://localhost:${PORT}`);
 });

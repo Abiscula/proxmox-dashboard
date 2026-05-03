@@ -1,10 +1,10 @@
 import { getVMs, getContainers } from "../services/proxmox.service.js";
 
-export async function getDashboard(req, res) {
+export async function getDashboard(req: any, res: any) {
   try {
     const [vms, containers] = await Promise.all([getVMs(), getContainers()]);
 
-    const formattedVMs = vms.map((vm) => ({
+    const formattedVMs = vms.map((vm: any) => ({
       id: vm.vmid,
       name: vm.name,
       type: "vm",
@@ -14,7 +14,7 @@ export async function getDashboard(req, res) {
       uptime: vm.uptime,
     }));
 
-    const formattedContainers = containers.map((ct) => ({
+    const formattedContainers = containers.map((ct: any) => ({
       id: ct.vmid,
       name: ct.name,
       type: "container",

@@ -9,6 +9,10 @@ const PROXMOX_URL = process.env.PROXMOX_URL;
 const TOKEN = process.env.PROXMOX_TOKEN;
 const NODE = process.env.NODE_NAME;
 
+if (!TOKEN) {
+  throw new Error("PROXMOX_TOKEN não definido");
+}
+
 const headers = {
   Authorization: TOKEN,
   "Cache-Control": "no-cache",
@@ -21,7 +25,7 @@ export async function getVMs() {
     agent,
   });
 
-  const data = await res.json();
+  const data: any = await res.json();
   return data.data;
 }
 
@@ -31,6 +35,6 @@ export async function getContainers() {
     agent,
   });
 
-  const data = await res.json();
+  const data: any = await res.json();
   return data.data;
 }
