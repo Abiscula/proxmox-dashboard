@@ -29,7 +29,7 @@ export async function getDashboard(
       status: vm.status,
       cpu: Number((vm.cpu * 100).toFixed(1)),
       memory: bytesToMB(vm.mem),
-      memoryUsage: getMemoryUsagePercent(vm.mem, vm.maxmem),
+      memoryUsage: getMemoryUsagePercent(vm.mem, vm.maxmem, vm.memhost),
       uptime: vm.uptime,
     }));
 
