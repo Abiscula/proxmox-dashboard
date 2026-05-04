@@ -4,6 +4,14 @@ Aplicação desenvolvida para consumo próprio com o objetivo de centralizar e s
 
 ---
 
+## Preview
+
+<div align="center">
+  <img src="./frontend/src/assets/projeto.jpeg" width="800"/>
+</div>
+
+---
+
 ## Sobre o projeto
 
 Este projeto consiste em uma aplicação fullstack com backend em Node.js + TypeScript e frontend em React, que consome a API do Proxmox e apresenta os dados em um dashboard personalizado.
