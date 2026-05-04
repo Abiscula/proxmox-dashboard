@@ -16,6 +16,11 @@ declare module "styled-components" {
         running: string;
         stopped: string;
       };
+
+      gradient: {
+        overview: string;
+        background: string;
+      };
     };
   }
 }
