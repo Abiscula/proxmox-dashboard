@@ -6,6 +6,7 @@ import { Page, Container, Header, Grid, EmptyState, Title } from "./styles";
 import Card from "../../components/Card";
 import { orderServices } from "../../helper/orderServices";
 import Overview from "../../components/Overview";
+import ProxmoxIcon from "../../components/Icons/ProxmoxIcon/indes";
 
 export default function Dashboard() {
   const [services, setServices] = useState<IService[]>([]);
@@ -24,6 +25,7 @@ export default function Dashboard() {
         <Overview />
 
         <Header>
+          <ProxmoxIcon size={42} />
           <Title>Homelab Dashboard</Title>
         </Header>
 
