@@ -5,3 +5,9 @@ export async function getDashboard() {
   const data = await res.json();
   return data;
 }
+
+export async function getOverviewData() {
+  const res = await fetch(`${API_URL}/api/overview`);
+  const data = await res.json();
+  return data;
+}
