@@ -5,6 +5,7 @@ import type { IService } from "../../interfaces";
 import { Page, Container, Header, Grid, EmptyState, Title } from "./styles";
 import Card from "../../components/Card";
 import { orderServices } from "../../helper/orderServices";
+import Overview from "../../components/Overview";
 
 export default function Dashboard() {
   const [services, setServices] = useState<IService[]>([]);
@@ -20,6 +21,8 @@ export default function Dashboard() {
   return (
     <Page>
       <Container>
+        <Overview />
+
         <Header>
           <Title>Homelab Dashboard</Title>
         </Header>
