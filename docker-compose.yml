@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   backend:
     build: ./backend
@@ -8,3 +6,11 @@ services:
       - "3000:3000"
     env_file:
       - ./backend/.env
+
+  frontend:
+    build: ./frontend
+    container_name: proxmox-web
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
