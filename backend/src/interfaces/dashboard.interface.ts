@@ -7,7 +7,6 @@ export interface IDashboardService {
   status: "running" | "stopped";
   cpu: number;
   memory: number;
-  memoryUsage: number;
   uptime: number;
 }
 

@@ -9,6 +9,5 @@ export interface IService {
   status: ServiceStatus;
   cpu: number;
   memory: number;
-  memoryUsage: number;
   uptime: number;
 }

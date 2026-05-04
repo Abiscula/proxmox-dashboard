@@ -1,5 +1,4 @@
 import { bytesToMB } from "../helper/formatBytes.js";
-import { getMemoryUsagePercent } from "../helper/memoryUsage.js";
 import {
   IDashboardResponse,
   IDashboardService,
@@ -29,7 +28,6 @@ export async function getDashboard(
       status: vm.status,
       cpu: Number((vm.cpu * 100).toFixed(1)),
       memory: bytesToMB(vm.mem),
-      memoryUsage: getMemoryUsagePercent(vm.mem, vm.maxmem, vm.memhost),
       uptime: vm.uptime,
     }));
 
@@ -41,7 +39,6 @@ export async function getDashboard(
         status: ct.status,
         cpu: Number((ct.cpu * 100).toFixed(1)),
         memory: bytesToMB(ct.mem),
-        memoryUsage: getMemoryUsagePercent(ct.mem, ct.maxmem),
         uptime: ct.uptime,
       }),
     );
