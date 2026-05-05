@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getDashboard } from "../../services/api";
+import { getDashboard, subscribeToState } from "../../services/api";
 import type { IService } from "../../interfaces";
 
 import { Page, Container, Header, Grid, EmptyState, Title } from "./styles";
@@ -11,12 +11,37 @@ import ProxmoxIcon from "../../components/Icons/ProxmoxIcon/indes";
 export default function Dashboard() {
   const [services, setServices] = useState<IService[]>([]);
 
-  useEffect(() => {
+  /**
+   * Faz a carga inicial do dashboard via REST.
+   * Usado para renderizar rapidamente antes do SSE começar a atualizar.
+   */
+  const fetchDashboard = (): void => {
     getDashboard().then((data) => {
       if ("services" in data) {
         setServices(orderServices(data.services));
       }
     });
+  };
+
+  /**
+   * Abre a conexão SSE para receber atualizações em tempo real
+   * do estado do Proxmox (overview + dashboard).
+   *
+   * Retorna a função de cleanup para encerrar a conexão.
+   */
+  const subscribeToProxmoxState = () => {
+    return subscribeToState((data) => {
+      setServices(orderServices(data.dashboard.services));
+    });
+  };
+
+  useEffect(() => {
+    fetchDashboard();
+
+    const unsubscribe = subscribeToProxmoxState();
+
+    // encerra conexão ao desmontar o componente
+    return unsubscribe;
   }, []);
 
   return (
