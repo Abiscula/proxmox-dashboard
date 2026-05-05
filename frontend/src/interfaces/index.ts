@@ -11,3 +11,21 @@ export interface IService {
   memory: number;
   uptime: number;
 }
+
+export interface IOverviewData {
+  cpuUsage: number;
+  memoryUsage: number;
+  memoryTotal: string;
+  memoryUsed: string;
+  storageUsage: number;
+  storageTotal: string;
+  storageUsed: string;
+  uptime: number;
+}
+
+export interface IStateEvent {
+  overview: IOverviewData;
+  dashboard: {
+    services: IService[];
+  };
+}

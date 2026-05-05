@@ -3,23 +3,10 @@ import { getOverviewData } from "../../services/api";
 
 import { Wrapper, Grid, Card, Value, Label } from "./styles";
 import { formatUptime } from "../../formatter/formatUptime";
-
-type OverviewData = {
-  cpuUsage: number;
-
-  memoryUsage: number;
-  memoryTotal: string;
-  memoryUsed: string;
-
-  storageUsage: number;
-  storageTotal: string;
-  storageUsed: string;
-
-  uptime: number;
-};
+import type { IOverviewData } from "../../interfaces";
 
 export default function Overview() {
-  const [data, setData] = useState<OverviewData | null>(null);
+  const [data, setData] = useState<IOverviewData | null>(null);
 
   useEffect(() => {
     getOverviewData().then(setData);
