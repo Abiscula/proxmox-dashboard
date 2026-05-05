@@ -1,17 +1,12 @@
-import { useEffect, useState } from "react";
-import { getOverviewData } from "../../services/api";
-
 import { Wrapper, Grid, Card, Value, Label } from "./styles";
 import { formatUptime } from "../../formatter/formatUptime";
 import type { IOverviewData } from "../../interfaces";
 
-export default function Overview() {
-  const [data, setData] = useState<IOverviewData | null>(null);
+type Props = {
+  data?: IOverviewData;
+};
 
-  useEffect(() => {
-    getOverviewData().then(setData);
-  }, []);
-
+export default function Overview({ data }: Props) {
   if (!data) return null;
 
   return (

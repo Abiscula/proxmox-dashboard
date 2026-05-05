@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
-import { getDashboard, subscribeToState } from "../../services/api";
-import type { IService } from "../../interfaces";
+import {
+  getDashboard,
+  getOverviewData,
+  subscribeToState,
+} from "../../services/api";
+import type { IOverviewData, IService } from "../../interfaces";
 
 import { Page, Container, Header, Grid, EmptyState, Title } from "./styles";
 import Card from "../../components/Card";
@@ -10,6 +14,7 @@ import ProxmoxIcon from "../../components/Icons/ProxmoxIcon/indes";
 
 export default function Dashboard() {
   const [services, setServices] = useState<IService[]>([]);
+  const [overviewData, setOverviewData] = useState<IOverviewData>();
 
   /**
    * Faz a carga inicial do dashboard via REST.
@@ -24,6 +29,14 @@ export default function Dashboard() {
   };
 
   /**
+   * Faz a carga inicial do overview via REST.
+   * Usado para renderizar rapidamente antes do SSE começar a atualizar.
+   */
+  const fetchOverview = (): void => {
+    getOverviewData().then(setOverviewData);
+  };
+
+  /**
    * Abre a conexão SSE para receber atualizações em tempo real
    * do estado do Proxmox (overview + dashboard).
    *
@@ -32,12 +45,13 @@ export default function Dashboard() {
   const subscribeToProxmoxState = () => {
     return subscribeToState((data) => {
       setServices(orderServices(data.dashboard.services));
+      setOverviewData(data.overview);
     });
   };
 
   useEffect(() => {
     fetchDashboard();
-
+    fetchOverview();
     const unsubscribe = subscribeToProxmoxState();
 
     // encerra conexão ao desmontar o componente
@@ -47,7 +61,7 @@ export default function Dashboard() {
   return (
     <Page>
       <Container>
-        <Overview />
+        <Overview data={overviewData} />
 
         <Header>
           <ProxmoxIcon size={42} />
