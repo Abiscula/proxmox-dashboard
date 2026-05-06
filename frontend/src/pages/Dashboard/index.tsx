@@ -10,7 +10,8 @@ import { Page, Container, Header, Grid, EmptyState, Title } from "./styles";
 import Card from "../../components/Card";
 import { orderServices } from "../../helper/orderServices";
 import Overview from "../../components/Overview";
-import ProxmoxIcon from "../../components/Icons/ProxmoxIcon/indes";
+import ProxmoxIcon from "../../components/Icons/ProxmoxIcon";
+import QuickAccessBar from "../../components/QuickAccessBar";
 
 export default function Dashboard() {
   const [services, setServices] = useState<IService[]>([]);
@@ -62,6 +63,7 @@ export default function Dashboard() {
     <Page>
       <Container>
         <Overview data={overviewData} />
+        <QuickAccessBar />
 
         <Header>
           <ProxmoxIcon size={42} />
