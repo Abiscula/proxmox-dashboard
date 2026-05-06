@@ -15,8 +15,14 @@ type Props = {
 };
 
 export default function Card({ service }: Props) {
+  const handleRedirect = () => {
+    if (!service.redirectUrl) return;
+
+    window.open(service.redirectUrl, "_blank");
+  };
+
   return (
-    <CardContainer>
+    <CardContainer onClick={handleRedirect} clickable={!!service.redirectUrl}>
       <CardHeader>
         <CardTitle>{service.name}</CardTitle>
         <Status status={service.status}>{service.status}</Status>

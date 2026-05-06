@@ -1,17 +1,20 @@
 import styled from "styled-components";
 import type { ServiceStatus } from "../../interfaces";
 
-export const CardContainer = styled.div`
+export const CardContainer = styled.div<{ clickable: boolean }>`
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 12px;
   padding: 16px;
-
   transition: 0.2s;
 
   &:hover {
-    transform: translateY(-3px);
-    border-color: ${({ theme }) => theme.colors.text.secondary};
+    ${({ clickable, theme }) =>
+      clickable &&
+      ` cursor: pointer;
+        transform: translateY(-3px);
+        border-color: ${theme.colors.text.secondary};
+      `}
   }
 `;
 

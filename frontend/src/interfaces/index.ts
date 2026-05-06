@@ -10,6 +10,7 @@ export interface IService {
   cpu: number;
   memory: number;
   uptime: number;
+  redirectUrl?: string | null;
 }
 
 export interface IOverviewData {
