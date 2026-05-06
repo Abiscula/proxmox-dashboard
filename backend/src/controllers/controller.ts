@@ -6,6 +6,7 @@ import {
 import { IProxmoxContainer } from "../interfaces/proxmox-lxc.interface.js";
 import { IProxmoxVM } from "../interfaces/proxmox-vm.interface.js";
 import { overviewStatusMapper } from "../mappers/overview-status.mapper.js";
+import { getServiceRedirectUrl } from "../mappers/service-redirects.mapper.js";
 import {
   getVMs,
   getContainers,
@@ -29,6 +30,7 @@ export async function getDashboard(
       cpu: Number((vm.cpu * 100).toFixed(1)),
       memory: bytesToMB(vm.mem),
       uptime: vm.uptime,
+      redirectUrl: getServiceRedirectUrl(vm.name),
     }));
 
     const formattedContainers: IDashboardService[] = containers.map(
@@ -40,6 +42,7 @@ export async function getDashboard(
         cpu: Number((ct.cpu * 100).toFixed(1)),
         memory: bytesToMB(ct.mem),
         uptime: ct.uptime,
+        redirectUrl: getServiceRedirectUrl(ct.name),
       }),
     );
 

@@ -8,6 +8,7 @@ export interface IDashboardService {
   cpu: number;
   memory: number;
   uptime: number;
+  redirectUrl?: string | null;
 }
 
 export type IDashboardResponse =
