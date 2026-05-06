@@ -30,3 +30,9 @@ export interface IStateEvent {
     services: IService[];
   };
 }
+
+export interface IServiceStatus {
+  id: string;
+  url: string;
+  online: boolean;
+}

@@ -1,4 +1,4 @@
-import type { IStateEvent } from "../interfaces";
+import type { IServiceStatus, IStateEvent } from "../interfaces";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -39,4 +39,11 @@ export function subscribeToState(onData: (data: IStateEvent) => void) {
     es.removeEventListener("state", handler);
     es.close();
   };
+}
+
+export async function getServicesStatus(): Promise<IServiceStatus[]> {
+  const res = await fetch(`${API_URL}/api/services-status`);
+  const data = await res.json();
+
+  return data;
 }
