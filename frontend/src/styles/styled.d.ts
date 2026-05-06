@@ -21,6 +21,10 @@ declare module "styled-components" {
         overview: string;
         background: string;
       };
+
+      effects: {
+        successGlow: string;
+      };
     };
   }
 }

@@ -18,5 +18,9 @@ export const theme = {
       overview: "linear-gradient(90deg, #1A2424 0%, #1B3232 100%);",
       background: "linear-gradient(0deg, #141919 86.52%, #0E2121 100%);",
     },
+
+    effects: {
+      successGlow: "0 0 12px rgba(34, 197, 94, 0.15)",
+    },
   },
 };
