@@ -25,7 +25,7 @@ export const Header = styled.div`
 export const ServicesContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 20px;
   flex-wrap: wrap;
 `;
 

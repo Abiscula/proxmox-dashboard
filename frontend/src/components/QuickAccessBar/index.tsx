@@ -1,3 +1,4 @@
+import JackettIcon from "../Icons/JackettIcon";
 import UptimeIcon from "../Icons/KumaIcon";
 import { Container, Header, ServiceButton, ServicesContainer } from "./styles";
 
@@ -7,8 +8,8 @@ const services = [
     icon: <UptimeIcon size={36} />,
   },
   {
-    url: "http://192.168.0.10:9117",
-    icon: "",
+    url: "http://monitor.home:9117/UI/Dashboard",
+    icon: <JackettIcon size={30} />,
   },
 ];
 
