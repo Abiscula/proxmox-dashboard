@@ -13,6 +13,8 @@ import Overview from "../../components/Overview";
 import ProxmoxIcon from "../../components/Icons/ProxmoxIcon";
 import QuickAccessBar from "../../components/QuickAccessBar";
 
+const PROXMOX_URL = "https://proxmox.home:8006/#v1:0:=qemu%2F101:4:::::::";
+
 export default function Dashboard() {
   const [services, setServices] = useState<IService[]>([]);
   const [overviewData, setOverviewData] = useState<IOverviewData>();
@@ -65,7 +67,11 @@ export default function Dashboard() {
         <Overview data={overviewData} />
         <QuickAccessBar />
 
-        <Header>
+        <Header
+          onClick={() => {
+            window.open(PROXMOX_URL, "_blank");
+          }}
+        >
           <ProxmoxIcon size={42} />
           <Title>Homelab Dashboard</Title>
         </Header>

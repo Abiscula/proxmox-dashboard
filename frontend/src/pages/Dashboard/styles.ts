@@ -17,6 +17,7 @@ export const Header = styled.div`
   align-items: center;
   gap: 8px;
   margin-bottom: 2rem;
+  cursor: pointer;
 `;
 
 export const Title = styled.h1`
