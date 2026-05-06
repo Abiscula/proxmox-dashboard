@@ -9,6 +9,7 @@ import { overviewStatusMapper } from "../mappers/overview-status.mapper.js";
 import { bytesToMB } from "../helper/formatBytes.js";
 import { IProxmoxVM } from "../interfaces/proxmox-vm.interface.js";
 import { IProxmoxContainer } from "../interfaces/proxmox-lxc.interface.js";
+import { getServiceRedirectUrl } from "../mappers/service-redirects.mapper.js";
 
 /**
  * Configura os headers necessários para conexão SSE.
@@ -38,6 +39,7 @@ function formatServices(vms: IProxmoxVM[], containers: IProxmoxContainer[]) {
     cpu: Number((vm.cpu * 100).toFixed(1)),
     memory: bytesToMB(vm.mem),
     uptime: vm.uptime,
+    redirectUrl: getServiceRedirectUrl(vm.name),
   }));
 
   const formattedContainers = containers.map((ct) => ({
@@ -48,6 +50,7 @@ function formatServices(vms: IProxmoxVM[], containers: IProxmoxContainer[]) {
     cpu: Number((ct.cpu * 100).toFixed(1)),
     memory: bytesToMB(ct.mem),
     uptime: ct.uptime,
+    redirectUrl: getServiceRedirectUrl(ct.name),
   }));
 
   return [...formattedVMs, ...formattedContainers];
