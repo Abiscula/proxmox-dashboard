@@ -3,6 +3,7 @@ import {
   getContainers,
   getProxmoxStatus,
   getProxmoxStorage,
+  getVMFileSystem,
 } from "../services/proxmox.service.js";
 import { Request, Response } from "express";
 
@@ -37,6 +38,18 @@ export async function getProxmoxStorageController(req: Request, res: Response) {
   try {
     const containers = await getProxmoxStorage();
     res.json(containers);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+export async function getVMFileSystemController(req: Request, res: Response) {
+  try {
+    const vmid = Number(req.params.vmid);
+
+    const fsInfo = await getVMFileSystem(vmid);
+
+    res.json(fsInfo);
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
