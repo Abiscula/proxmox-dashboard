@@ -108,3 +108,29 @@ Não possui autenticação própria por design, assumindo que o acesso já está
 - Adição de métricas mais detalhadas
 - Possível implementação de cache
 - Expansão para controle de VMs (start/stop)
+
+---
+
+## Deploy automático (CI/CD)
+
+O projeto possui deploy automatizado utilizando GitHub Actions com Self-Hosted Runner hospedado na própria infraestrutura local.
+
+A cada `push` realizado na branch principal:
+
+- O workflow é executado automaticamente
+- O runner dispara o script de deploy no servidor
+- Os containers Docker são rebuildados apenas quando necessário (frontend/backend)
+
+Fluxo simplificado:
+
+```text
+git push
+   ↓
+GitHub Actions
+   ↓
+Self-Hosted Runner
+   ↓
+deploy.sh
+   ↓
+Docker Compose
+```
