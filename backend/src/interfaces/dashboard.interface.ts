@@ -9,6 +9,9 @@ export interface IDashboardService {
   memory: number;
   uptime: number;
   redirectUrl?: string | null;
+  diskUsage: number;
+  diskUsed: number;
+  diskTotal: number;
 }
 
 export type IDashboardResponse =
