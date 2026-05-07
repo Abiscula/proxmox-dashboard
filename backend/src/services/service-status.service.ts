@@ -25,7 +25,6 @@ export async function getServicesStatus() {
           },
           signal: AbortSignal.timeout(5000),
         });
-        console.log(response);
         return {
           id: service.id,
           url: service.url,
