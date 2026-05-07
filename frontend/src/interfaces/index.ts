@@ -11,6 +11,9 @@ export interface IService {
   memory: number;
   uptime: number;
   redirectUrl?: string | null;
+  diskUsage: number;
+  diskUsed: number;
+  diskTotal: number;
 }
 
 export interface IOverviewData {

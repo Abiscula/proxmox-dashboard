@@ -53,3 +53,36 @@ export const Metric = styled.p`
   font-size: 0.85rem;
   color: ${({ theme }) => theme.colors.text.secondary};
 `;
+
+export const DiskContainer = styled.div`
+  margin-top: 8px;
+`;
+
+export const DiskInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+`;
+
+export const DiskBar = styled.div`
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: ${({ theme }) => theme.colors.border};
+`;
+
+export const DiskBarFill = styled.div<{ usage: number }>`
+  height: 100%;
+  width: ${({ usage }) => usage}%;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+
+  background: ${({ theme, usage }) => {
+    if (usage >= 90) return theme.colors.status.stopped;
+    if (usage >= 70) return theme.colors.status.warning;
+
+    return theme.colors.status.running;
+  }};
+`;

@@ -8,6 +8,10 @@ import {
   Status,
   CardBody,
   Metric,
+  DiskContainer,
+  DiskBar,
+  DiskBarFill,
+  DiskInfo,
 } from "./styles";
 
 type Props = {
@@ -34,6 +38,21 @@ export default function Card({ service }: Props) {
         <Metric>CPU: {service.cpu}%</Metric>
         <Metric>Memória RAM: {service.memory} MB</Metric>
         <Metric>Uptime: {formatUptime(service.uptime)}</Metric>
+
+        <DiskContainer>
+          <DiskInfo>
+            <Metric>Disco: {service.diskUsage}%</Metric>
+
+            <Metric>
+              {Math.round(service.diskUsed / 1024 / 1024 / 1024)}GB /
+              {Math.round(service.diskTotal / 1024 / 1024 / 1024)}GB
+            </Metric>
+          </DiskInfo>
+
+          <DiskBar>
+            <DiskBarFill usage={service.diskUsage} />
+          </DiskBar>
+        </DiskContainer>
       </CardBody>
     </CardContainer>
   );
