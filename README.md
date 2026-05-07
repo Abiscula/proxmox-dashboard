@@ -48,26 +48,14 @@ O projeto segue uma estrutura simples e escalável:
 
 ---
 
-## Endpoint principal
+## Endpoints
 
-### `GET /api/dashboard`
+A API disponibiliza os seguintes endpoints:
 
-Retorna uma lista unificada de serviços (VMs + Containers):
-
-```json
-{
-  "services": [
-    {
-      "id": 102,
-      "name": "Study-lab",
-      "type": "vm",
-      "status": "running",
-      "cpu": 0.12,
-      "memory": 2048,
-      "uptime": 123456
-    }
-  ]
-}
+```ts
+"/api/dashboard";
+"/api/overview";
+"/api/services-status";
 ```
 
 ---
@@ -102,12 +90,13 @@ Não possui autenticação própria por design, assumindo que o acesso já está
 
 ---
 
-## Próximos passos
+## Atualização em tempo real
 
-- Evolução do layout e experiência do dashboard
-- Adição de métricas mais detalhadas
-- Possível implementação de cache
-- Expansão para controle de VMs (start/stop)
+A aplicação utiliza **Server-Sent Events (SSE)** para atualização automática dos dados do dashboard em tempo real.
+
+As informações de status e recursos dos serviços são atualizadas periodicamente sem necessidade de refresh manual da página, garantindo uma visualização mais dinâmica do ambiente.
+
+Atualmente os dados são sincronizados a cada **5 segundos**.
 
 ---
 
