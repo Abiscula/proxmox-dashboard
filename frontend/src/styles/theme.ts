@@ -12,6 +12,7 @@ export const theme = {
     status: {
       running: "#22c55e",
       stopped: "#ef4444",
+      warning: "#f59e0b",
     },
 
     gradient: {

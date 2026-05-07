@@ -15,6 +15,7 @@ declare module "styled-components" {
       status: {
         running: string;
         stopped: string;
+        warning: string;
       };
 
       gradient: {
