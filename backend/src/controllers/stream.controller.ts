@@ -6,10 +6,12 @@ import {
   getProxmoxStorage,
 } from "../services/proxmox.service.js";
 import { overviewStatusMapper } from "../mappers/overview-status.mapper.js";
-import { bytesToMB } from "../helper/formatBytes.js";
 import { IProxmoxVM } from "../interfaces/proxmox-vm.interface.js";
 import { IProxmoxContainer } from "../interfaces/proxmox-lxc.interface.js";
-import { getServiceRedirectUrl } from "../mappers/service-redirects.mapper.js";
+import {
+  MachineType,
+  proxmoxServiceMapper,
+} from "../mappers/proxmox-service.mapper.js";
 
 /**
  * Configura os headers necessários para conexão SSE.
@@ -31,27 +33,13 @@ function setupSSEHeaders(res: Response) {
  * Formata os dados de VMs e Containers para o padrão do dashboard.
  */
 function formatServices(vms: IProxmoxVM[], containers: IProxmoxContainer[]) {
-  const formattedVMs = vms.map((vm) => ({
-    id: vm.vmid,
-    name: vm.name,
-    type: "vm" as const,
-    status: vm.status,
-    cpu: Number((vm.cpu * 100).toFixed(1)),
-    memory: bytesToMB(vm.mem),
-    uptime: vm.uptime,
-    redirectUrl: getServiceRedirectUrl(vm.name),
-  }));
+  const formattedVMs = vms.map((vm) =>
+    proxmoxServiceMapper(vm, MachineType.VM),
+  );
 
-  const formattedContainers = containers.map((ct) => ({
-    id: ct.vmid,
-    name: ct.name,
-    type: "container" as const,
-    status: ct.status,
-    cpu: Number((ct.cpu * 100).toFixed(1)),
-    memory: bytesToMB(ct.mem),
-    uptime: ct.uptime,
-    redirectUrl: getServiceRedirectUrl(ct.name),
-  }));
+  const formattedContainers = containers.map((ct) =>
+    proxmoxServiceMapper(ct, MachineType.Container),
+  );
 
   return [...formattedVMs, ...formattedContainers];
 }

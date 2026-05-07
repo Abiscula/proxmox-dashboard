@@ -1,12 +1,9 @@
-import { bytesToMB } from "../helper/formatBytes.js";
 import {
-  IDashboardResponse,
-  IDashboardService,
-} from "../interfaces/dashboard.interface.js";
-import { IProxmoxContainer } from "../interfaces/proxmox-lxc.interface.js";
-import { IProxmoxVM } from "../interfaces/proxmox-vm.interface.js";
+  MachineType,
+  proxmoxServiceMapper,
+} from "../mappers/proxmox-service.mapper.js";
+import { IDashboardResponse } from "../interfaces/dashboard.interface.js";
 import { overviewStatusMapper } from "../mappers/overview-status.mapper.js";
-import { getServiceRedirectUrl } from "../mappers/service-redirects.mapper.js";
 import {
   getVMs,
   getContainers,
@@ -22,28 +19,12 @@ export async function getDashboard(
   try {
     const [vms, containers] = await Promise.all([getVMs(), getContainers()]);
 
-    const formattedVMs: IDashboardService[] = vms.map((vm: IProxmoxVM) => ({
-      id: vm.vmid,
-      name: vm.name,
-      type: "vm",
-      status: vm.status,
-      cpu: Number((vm.cpu * 100).toFixed(1)),
-      memory: bytesToMB(vm.mem),
-      uptime: vm.uptime,
-      redirectUrl: getServiceRedirectUrl(vm.name),
-    }));
+    const formattedVMs = vms.map((vm) =>
+      proxmoxServiceMapper(vm, MachineType.VM),
+    );
 
-    const formattedContainers: IDashboardService[] = containers.map(
-      (ct: IProxmoxContainer) => ({
-        id: ct.vmid,
-        name: ct.name,
-        type: "container",
-        status: ct.status,
-        cpu: Number((ct.cpu * 100).toFixed(1)),
-        memory: bytesToMB(ct.mem),
-        uptime: ct.uptime,
-        redirectUrl: getServiceRedirectUrl(ct.name),
-      }),
+    const formattedContainers = containers.map((ct) =>
+      proxmoxServiceMapper(ct, MachineType.Container),
     );
 
     res.json({
