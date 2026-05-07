@@ -8,7 +8,7 @@ type DiskUsage = {
   diskUsage: number;
 };
 
-type VMFileSystemInfo = {
+export type VMFileSystemInfo = {
   result: {
     mountpoint: string;
     "used-bytes": number;

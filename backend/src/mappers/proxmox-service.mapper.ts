@@ -3,11 +3,8 @@ import { IProxmoxContainer } from "../interfaces/proxmox-lxc.interface.js";
 import { IProxmoxVM } from "../interfaces/proxmox-vm.interface.js";
 import { getServiceRedirectUrl } from "./service-redirects.mapper.js";
 import { bytesToMB } from "../helper/formatBytes.js";
-
-export enum MachineType {
-  VM = "vm",
-  Container = "container",
-}
+import { getDiskUsage, VMFileSystemInfo } from "../helper/getDiskUsage.js";
+import { MachineType } from "../constants/proxmox.js";
 
 /**
  * Retorna a VM ou Container formatado para o padrão do dashboard.
@@ -18,7 +15,14 @@ export enum MachineType {
 export function proxmoxServiceMapper(
   machine: IProxmoxVM | IProxmoxContainer,
   machineType: MachineType,
+  fsInfo?: VMFileSystemInfo,
 ): IDashboardService {
+  const { diskUsed, diskTotal, diskUsage } = getDiskUsage(
+    machine,
+    machineType,
+    fsInfo,
+  );
+
   return {
     id: machine.vmid,
     name: machine.name,
@@ -28,5 +32,8 @@ export function proxmoxServiceMapper(
     memory: bytesToMB(machine.mem),
     uptime: machine.uptime,
     redirectUrl: getServiceRedirectUrl(machine.name),
+    diskUsage,
+    diskUsed,
+    diskTotal,
   };
 }
