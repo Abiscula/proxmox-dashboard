@@ -1,34 +1,21 @@
-import {
-  MachineType,
-  proxmoxServiceMapper,
-} from "../mappers/proxmox-service.mapper.js";
 import { IDashboardResponse } from "../interfaces/dashboard.interface.js";
 import { overviewStatusMapper } from "../mappers/overview-status.mapper.js";
 import {
-  getVMs,
-  getContainers,
   getProxmoxStatus,
   getProxmoxStorage,
 } from "../services/proxmox.service.js";
 import { Request, Response } from "express";
+import { getFormattedServices } from "../services/dashboard.service.js";
 
 export async function getDashboard(
   req: Request,
   res: Response<IDashboardResponse>,
 ) {
   try {
-    const [vms, containers] = await Promise.all([getVMs(), getContainers()]);
-
-    const formattedVMs = vms.map((vm) =>
-      proxmoxServiceMapper(vm, MachineType.VM),
-    );
-
-    const formattedContainers = containers.map((ct) =>
-      proxmoxServiceMapper(ct, MachineType.Container),
-    );
+    const services = await getFormattedServices();
 
     res.json({
-      services: [...formattedVMs, ...formattedContainers],
+      services,
     });
   } catch (err) {
     res.status(500).json({ error: "Erro no dashboard" });

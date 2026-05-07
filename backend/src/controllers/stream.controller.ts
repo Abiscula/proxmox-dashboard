@@ -1,17 +1,10 @@
 import { Request, Response } from "express";
 import {
-  getVMs,
-  getContainers,
   getProxmoxStatus,
   getProxmoxStorage,
 } from "../services/proxmox.service.js";
 import { overviewStatusMapper } from "../mappers/overview-status.mapper.js";
-import { IProxmoxVM } from "../interfaces/proxmox-vm.interface.js";
-import { IProxmoxContainer } from "../interfaces/proxmox-lxc.interface.js";
-import {
-  MachineType,
-  proxmoxServiceMapper,
-} from "../mappers/proxmox-service.mapper.js";
+import { getFormattedServices } from "../services/dashboard.service.js";
 
 /**
  * Configura os headers necessários para conexão SSE.
@@ -27,21 +20,6 @@ function setupSSEHeaders(res: Response) {
   });
 
   res.flushHeaders?.();
-}
-
-/**
- * Formata os dados de VMs e Containers para o padrão do dashboard.
- */
-function formatServices(vms: IProxmoxVM[], containers: IProxmoxContainer[]) {
-  const formattedVMs = vms.map((vm) =>
-    proxmoxServiceMapper(vm, MachineType.VM),
-  );
-
-  const formattedContainers = containers.map((ct) =>
-    proxmoxServiceMapper(ct, MachineType.Container),
-  );
-
-  return [...formattedVMs, ...formattedContainers];
 }
 
 /**
@@ -65,15 +43,13 @@ export async function streamState(req: Request, res: Response) {
     if (closed) return;
 
     try {
-      const [vms, containers, status, storage] = await Promise.all([
-        getVMs(),
-        getContainers(),
+      const [services, status, storage] = await Promise.all([
+        getFormattedServices(),
         getProxmoxStatus(),
         getProxmoxStorage(),
       ]);
 
       const overview = overviewStatusMapper(status, storage);
-      const services = formatServices(vms, containers);
 
       sendEvent(res, "state", {
         overview,
