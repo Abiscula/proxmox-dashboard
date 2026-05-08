@@ -18,4 +18,12 @@ fi
 echo "Limpando imagens antigas..."
 docker image prune -f
 
+if echo "$CHANGED_FILES" | grep -q "^agent/"; then
+  echo "Atualizando agent..."
+
+  ./agent/deploy-agent.sh
+
+  sudo systemctl restart proxmox-agent
+fi
+
 echo "Deploy finalizado com sucesso!"
