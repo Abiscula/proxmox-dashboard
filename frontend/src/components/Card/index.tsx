@@ -1,6 +1,7 @@
 import { formatServiceType } from "../../formatter/formatServiceType";
 import { formatUptime } from "../../formatter/formatUptime";
-import type { IService } from "../../interfaces";
+
+import type { IService, IDockerContainer, CardVariant } from "../../interfaces";
 
 import {
   CardContainer,
@@ -18,15 +19,44 @@ import {
 } from "./styles";
 
 type Props = {
-  service: IService;
+  service?: IService;
+  container?: IDockerContainer;
+  variant?: CardVariant;
 };
 
-export default function Card({ service }: Props) {
+export default function Card({
+  service,
+  container,
+  variant = "default",
+}: Props) {
   const handleRedirect = () => {
-    if (!service.redirectUrl) return;
+    if (!service?.redirectUrl) return;
 
     window.open(service.redirectUrl, "_blank");
   };
+
+  if (variant === "docker" && container) {
+    return (
+      <CardContainer variant="docker">
+        <CardHeader>
+          <CardTitle>{container.name}</CardTitle>
+          <Status
+            status={container.state === "running" ? "running" : "stopped"}
+          >
+            {container.state}
+          </Status>
+        </CardHeader>
+
+        <CardBody>
+          <Metric>ID: {container.id.slice(0, 12)}</Metric>
+          <Metric>Image: {container.image}</Metric>
+          <Metric>Uptime: {container.status}</Metric>
+        </CardBody>
+      </CardContainer>
+    );
+  }
+
+  if (!service) return null;
 
   return (
     <CardContainer>

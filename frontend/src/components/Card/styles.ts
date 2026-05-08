@@ -1,9 +1,16 @@
 import styled from "styled-components";
 import type { ServiceStatus } from "../../interfaces";
 
-export const CardContainer = styled.div`
-  background: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
+export const CardContainer = styled.div<{
+  variant?: "default" | "docker";
+}>`
+  background: ${({ theme, variant }) =>
+    variant === "docker" ? theme.colors.docker.surface : theme.colors.surface};
+
+  border: 1px solid
+    ${({ theme, variant }) =>
+      variant === "docker" ? theme.colors.docker.border : theme.colors.border};
+
   border-radius: 12px;
   padding: 16px;
 
@@ -11,8 +18,13 @@ export const CardContainer = styled.div`
     transform 0.2s ease,
     border-color 0.2s ease;
 
+  backdrop-filter: blur(4px);
+
   &:hover {
-    border-color: ${({ theme }) => theme.colors.text.secondary};
+    border-color: ${({ theme, variant }) =>
+      variant === "docker"
+        ? theme.colors.docker.hover
+        : theme.colors.text.secondary};
   }
 `;
 
@@ -50,6 +62,10 @@ export const CardBody = styled.div`
 export const Metric = styled.p`
   font-size: 0.85rem;
   color: ${({ theme }) => theme.colors.text.secondary};
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export const DiskContainer = styled.div`
