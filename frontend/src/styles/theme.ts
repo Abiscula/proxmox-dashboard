@@ -15,6 +15,12 @@ export const theme = {
       warning: "#f59e0b",
     },
 
+    action: {
+      primary: "#2C199C",
+      primaryHover: "#321DB4",
+      primaryActive: "#17ACFF",
+    },
+
     gradient: {
       overview: "linear-gradient(90deg, #1A2424 0%, #1B3232 100%);",
       background: "linear-gradient(0deg, #141919 86.52%, #0E2121 100%);",

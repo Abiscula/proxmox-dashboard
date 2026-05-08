@@ -18,6 +18,12 @@ declare module "styled-components" {
         warning: string;
       };
 
+      action: {
+        primary: string;
+        primaryHover: string;
+        primaryActive: string;
+      };
+
       gradient: {
         overview: string;
         background: string;
