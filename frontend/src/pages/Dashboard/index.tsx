@@ -1,12 +1,27 @@
 import { useEffect, useState } from "react";
 import {
   getDashboard,
+  getDockerContainers,
   getOverviewData,
   subscribeToState,
 } from "../../services/api";
-import type { IOverviewData, IService } from "../../interfaces";
+import type {
+  IDockerContainer,
+  IOverviewData,
+  IService,
+} from "../../interfaces";
 
-import { Page, Container, Header, Grid, EmptyState, Title } from "./styles";
+import {
+  Page,
+  Container,
+  Header,
+  Grid,
+  EmptyState,
+  Title,
+  DockerSection,
+  DockerSectionHeader,
+  DockerGrid,
+} from "./styles";
 import Card from "../../components/Card";
 import { orderServices } from "../../helper/orderServices";
 import Overview from "../../components/Overview";
@@ -18,6 +33,7 @@ const PROXMOX_URL = "https://proxmox.home:8006/#v1:0:=qemu%2F101:4:::::::";
 export default function Dashboard() {
   const [services, setServices] = useState<IService[]>([]);
   const [overviewData, setOverviewData] = useState<IOverviewData>();
+  const [containers, setContainers] = useState<IDockerContainer[]>([]);
 
   /**
    * Faz a carga inicial do dashboard via REST.
@@ -61,6 +77,14 @@ export default function Dashboard() {
     return unsubscribe;
   }, []);
 
+  useEffect(() => {
+    async function loadContainers() {
+      const data = await getDockerContainers();
+      setContainers(data);
+    }
+    loadContainers();
+  }, []);
+
   return (
     <Page>
       <Container>
@@ -85,6 +109,15 @@ export default function Dashboard() {
             ))}
           </Grid>
         )}
+        <DockerSection>
+          <DockerSectionHeader>🐳 Docker Containers</DockerSectionHeader>
+
+          <DockerGrid>
+            {containers.map((container) => (
+              <Card key={container.id} variant="docker" container={container} />
+            ))}
+          </DockerGrid>
+        </DockerSection>
       </Container>
     </Page>
   );
