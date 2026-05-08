@@ -47,3 +47,5 @@ export interface IDockerContainer {
   state: string;
   status: string;
 }
+
+export type CardVariant = "default" | "docker";
