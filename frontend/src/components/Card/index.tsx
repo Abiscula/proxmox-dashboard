@@ -1,6 +1,7 @@
 import { formatServiceType } from "../../formatter/formatServiceType";
 import { formatUptime } from "../../formatter/formatUptime";
 import type { IService } from "../../interfaces";
+
 import {
   CardContainer,
   CardHeader,
@@ -12,6 +13,8 @@ import {
   DiskBar,
   DiskBarFill,
   DiskInfo,
+  ActionsContainer,
+  AccessButton,
 } from "./styles";
 
 type Props = {
@@ -26,9 +29,10 @@ export default function Card({ service }: Props) {
   };
 
   return (
-    <CardContainer onClick={handleRedirect} clickable={!!service.redirectUrl}>
+    <CardContainer>
       <CardHeader>
         <CardTitle>{service.name}</CardTitle>
+
         <Status status={service.status}>{service.status}</Status>
       </CardHeader>
 
@@ -53,6 +57,12 @@ export default function Card({ service }: Props) {
             <DiskBarFill usage={service.diskUsage} />
           </DiskBar>
         </DiskContainer>
+
+        {service.redirectUrl && (
+          <ActionsContainer>
+            <AccessButton onClick={handleRedirect}>Acessar</AccessButton>
+          </ActionsContainer>
+        )}
       </CardBody>
     </CardContainer>
   );

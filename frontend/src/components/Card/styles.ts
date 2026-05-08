@@ -1,20 +1,18 @@
 import styled from "styled-components";
 import type { ServiceStatus } from "../../interfaces";
 
-export const CardContainer = styled.div<{ clickable: boolean }>`
+export const CardContainer = styled.div`
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 12px;
   padding: 16px;
-  transition: 0.2s;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
 
   &:hover {
-    ${({ clickable, theme }) =>
-      clickable &&
-      ` cursor: pointer;
-        transform: translateY(-3px);
-        border-color: ${theme.colors.text.secondary};
-      `}
+    border-color: ${({ theme }) => theme.colors.text.secondary};
   }
 `;
 
@@ -85,4 +83,31 @@ export const DiskBarFill = styled.div<{ usage: number }>`
 
     return theme.colors.status.running;
   }};
+`;
+
+export const ActionsContainer = styled.div`
+  margin-top: 12px;
+
+  display: flex;
+  justify-content: flex-end;
+`;
+
+export const AccessButton = styled.button`
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  background: ${({ theme }) => theme.colors.action.primaryHover};
+  color: white;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.action.primaryHover};
+  }
+
+  &:active {
+    background: ${({ theme }) => theme.colors.action.primaryActive};
+  }
 `;
