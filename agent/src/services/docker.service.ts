@@ -1,6 +1,7 @@
 import Docker from "dockerode";
 import { ContainerInfo } from "dockerode";
 import { IDockerContainer } from "../interfaces/docker-container.interface";
+import { formatDockerUptime } from "../helpers/format-docker-uptime";
 
 const docker = new Docker({
   socketPath: "/var/run/docker.sock",
@@ -17,7 +18,7 @@ export class DockerService {
       name: container.Names?.[0]?.replace("/", "") || "unknown",
       image: container.Image,
       state: container.State,
-      status: container.Status,
+      status: formatDockerUptime(container.Status),
     }));
   }
 }
