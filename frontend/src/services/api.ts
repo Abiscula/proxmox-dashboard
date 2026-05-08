@@ -1,4 +1,8 @@
-import type { IServiceStatus, IStateEvent } from "../interfaces";
+import type {
+  IDockerContainer,
+  IServiceStatus,
+  IStateEvent,
+} from "../interfaces";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -43,6 +47,14 @@ export function subscribeToState(onData: (data: IStateEvent) => void) {
 
 export async function getServicesStatus(): Promise<IServiceStatus[]> {
   const res = await fetch(`${API_URL}/api/services-status`);
+  const data = await res.json();
+
+  return data;
+}
+
+export async function getDockerContainers(): Promise<IDockerContainer[]> {
+  const res = await fetch(`${API_URL}/api/agent/containers`);
+
   const data = await res.json();
 
   return data;
