@@ -21,6 +21,12 @@ export const theme = {
       primaryActive: "#17ACFF",
     },
 
+    docker: {
+      surface: "#2C303B",
+      border: "#31384A",
+      hover: "#46506A",
+    },
+
     gradient: {
       overview: "linear-gradient(90deg, #1A2424 0%, #1B3232 100%);",
       background: "linear-gradient(0deg, #141919 86.52%, #0E2121 100%);",

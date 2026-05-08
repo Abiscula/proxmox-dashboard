@@ -24,6 +24,12 @@ declare module "styled-components" {
         primaryActive: string;
       };
 
+      docker: {
+        surface: string;
+        border: string;
+        hover: string;
+      };
+
       gradient: {
         overview: string;
         background: string;
