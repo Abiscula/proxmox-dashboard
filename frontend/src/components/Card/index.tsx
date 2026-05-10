@@ -1,8 +1,10 @@
 import { DOCKER_VM_ID } from "../../constants";
+
 import { formatServiceType } from "../../formatter/formatServiceType";
+
 import { formatUptime } from "../../formatter/formatUptime";
 
-import type { IService, IDockerContainer, CardVariant } from "../../interfaces";
+import type { IService } from "../../interfaces";
 
 import {
   CardContainer,
@@ -20,56 +22,27 @@ import {
 } from "./styles";
 
 type Props = {
-  service?: IService;
-  container?: IDockerContainer;
-  variant?: CardVariant;
+  service: IService;
 };
 
-export default function Card({
-  service,
-  container,
-  variant = "default",
-}: Props) {
+export default function Card({ service }: Props) {
   const handleRedirect = () => {
-    if (!service?.redirectUrl) return;
+    if (!service.redirectUrl) return;
 
     window.open(service.redirectUrl, "_blank");
   };
 
   const resolveTotalMemory = (): string => {
     const shouldShowTotalMemory =
-      service?.type === "container" ||
-      (service?.type === "vm" && service.id === DOCKER_VM_ID);
+      service.type === "container" ||
+      (service.type === "vm" && service.id === DOCKER_VM_ID);
 
-    if (!shouldShowTotalMemory || !service?.totalMemory) {
+    if (!shouldShowTotalMemory || !service.totalMemory) {
       return "";
     }
 
     return ` / ${service.totalMemory}`;
   };
-
-  if (variant === "docker" && container) {
-    return (
-      <CardContainer variant="docker">
-        <CardHeader>
-          <CardTitle>{container.name}</CardTitle>
-          <Status
-            status={container.state === "running" ? "running" : "stopped"}
-          >
-            {container.state}
-          </Status>
-        </CardHeader>
-
-        <CardBody>
-          <Metric>ID: {container.id.slice(0, 12)}</Metric>
-          <Metric>Image: {container.image}</Metric>
-          <Metric>Uptime: {container.status}</Metric>
-        </CardBody>
-      </CardContainer>
-    );
-  }
-
-  if (!service) return null;
 
   return (
     <CardContainer>
@@ -81,11 +54,16 @@ export default function Card({
 
       <CardBody>
         <Metric>ID: {service.id}</Metric>
+
         <Metric>Tipo: {formatServiceType(service.type)}</Metric>
+
         <Metric>CPU: {service.cpu}%</Metric>
+
         <Metric>
-          Memória RAM: {service.memory} {resolveTotalMemory()} MB
+          Memória RAM: {service.memory}
+          {resolveTotalMemory()} MB
         </Metric>
+
         <Metric>Uptime: {formatUptime(service.uptime)}</Metric>
 
         <DiskContainer>
