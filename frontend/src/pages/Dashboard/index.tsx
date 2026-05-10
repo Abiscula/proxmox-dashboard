@@ -97,18 +97,17 @@ export default function Dashboard() {
 
   return (
     <Page>
+      <Header
+        onClick={() => {
+          window.open(PROXMOX_URL, "_blank");
+        }}
+      >
+        <ProxmoxIcon size={42} />
+        <Title>Homelab Dashboard</Title>
+      </Header>
       <Container>
         <Overview data={overviewData} />
         <QuickAccessBar />
-
-        <Header
-          onClick={() => {
-            window.open(PROXMOX_URL, "_blank");
-          }}
-        >
-          <ProxmoxIcon size={42} />
-          <Title>Homelab Dashboard</Title>
-        </Header>
 
         {services.length === 0 ? (
           <EmptyState>Carregando serviços...</EmptyState>

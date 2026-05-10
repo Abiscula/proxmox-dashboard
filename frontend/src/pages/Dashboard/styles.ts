@@ -2,22 +2,32 @@ import styled from "styled-components";
 
 export const Page = styled.div`
   min-height: 100vh;
-  padding: 2rem;
   background: ${({ theme }) => theme.colors.gradient.background};
 `;
 
 export const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
+  padding: 2rem;
 `;
 
 export const Header = styled.div`
+  position: sticky;
+  top: 0;
+
+  width: 100%;
+  height: 90px;
   display: flex;
   flex-direction: row;
   align-items: center;
+
   gap: 8px;
-  margin-bottom: 2rem;
+  padding: 0 48px;
   cursor: pointer;
+  z-index: 1000;
+  backdrop-filter: blur(16px);
+  background: rgba(5, 10, 15, 0.92);
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
 export const Title = styled.h1`
