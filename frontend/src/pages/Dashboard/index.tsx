@@ -27,6 +27,7 @@ import { orderServices } from "../../helper/orderServices";
 import Overview from "../../components/Overview";
 import ProxmoxIcon from "../../components/Icons/ProxmoxIcon";
 import QuickAccessBar from "../../components/QuickAccessBar";
+import CardDocker from "../../components/CardDocker";
 
 const PROXMOX_URL = "https://proxmox.home:8006/#v1:0:=qemu%2F101:4:::::::";
 
@@ -55,6 +56,10 @@ export default function Dashboard() {
     getOverviewData().then(setOverviewData);
   };
 
+  const loadContainers = () => {
+    getDockerContainers().then(setContainers);
+  };
+
   /**
    * Abre a conexão SSE para receber atualizações em tempo real
    * do estado do Proxmox (overview + dashboard).
@@ -71,18 +76,12 @@ export default function Dashboard() {
   useEffect(() => {
     fetchDashboard();
     fetchOverview();
-    const unsubscribe = subscribeToProxmoxState();
+    loadContainers();
 
+    //  ---- SSE -------------------------------
+    const unsubscribe = subscribeToProxmoxState();
     // encerra conexão ao desmontar o componente
     return unsubscribe;
-  }, []);
-
-  useEffect(() => {
-    async function loadContainers() {
-      const data = await getDockerContainers();
-      setContainers(data);
-    }
-    loadContainers();
   }, []);
 
   return (
@@ -114,7 +113,7 @@ export default function Dashboard() {
 
           <DockerGrid>
             {containers.map((container) => (
-              <Card key={container.id} variant="docker" container={container} />
+              <CardDocker key={container.id} container={container} />
             ))}
           </DockerGrid>
         </DockerSection>
