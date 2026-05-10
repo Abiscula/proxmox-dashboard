@@ -17,14 +17,20 @@ export async function getFormattedServices() {
     })),
   );
 
-  const formattedVMs = vms.map((vm) => {
-    const fsInfo = vmFileSystems.find((item) => item.vmid === vm.vmid)?.fsInfo;
+  const formattedVMs = await Promise.all(
+    vms.map(async (vm) => {
+      const fsInfo = vmFileSystems.find(
+        (item) => item.vmid === vm.vmid,
+      )?.fsInfo;
 
-    return proxmoxServiceMapper(vm, MachineType.VM, fsInfo);
-  });
+      return proxmoxServiceMapper(vm, MachineType.VM, fsInfo);
+    }),
+  );
 
-  const formattedContainers = containers.map((ct) =>
-    proxmoxServiceMapper(ct, MachineType.Container),
+  const formattedContainers = await Promise.all(
+    containers.map(async (ct) =>
+      proxmoxServiceMapper(ct, MachineType.Container),
+    ),
   );
 
   return [...formattedVMs, ...formattedContainers];
