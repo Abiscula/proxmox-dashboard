@@ -21,6 +21,10 @@ import {
   DockerSection,
   DockerSectionHeader,
   DockerGrid,
+  DockerDiagram,
+  DockerHostContainer,
+  DockerConnection,
+  DockerConnectionRow,
 } from "./styles";
 import Card from "../../components/Card";
 import { orderServices } from "../../helper/orderServices";
@@ -28,6 +32,7 @@ import Overview from "../../components/Overview";
 import ProxmoxIcon from "../../components/Icons/ProxmoxIcon";
 import QuickAccessBar from "../../components/QuickAccessBar";
 import CardDocker from "../../components/CardDocker";
+import { DOCKER_VM_ID } from "../../constants";
 
 const PROXMOX_URL = "https://proxmox.home:8006/#v1:0:=qemu%2F101:4:::::::";
 
@@ -84,6 +89,12 @@ export default function Dashboard() {
     return unsubscribe;
   }, []);
 
+  const dockerHost = services.find((service) => service.id === DOCKER_VM_ID);
+
+  const filteredServices = services.filter(
+    (service) => service.id !== DOCKER_VM_ID,
+  );
+
   return (
     <Page>
       <Container>
@@ -103,19 +114,31 @@ export default function Dashboard() {
           <EmptyState>Carregando serviços...</EmptyState>
         ) : (
           <Grid>
-            {services.map((service) => (
+            {filteredServices.map((service) => (
               <Card key={service.id} service={service} />
             ))}
           </Grid>
         )}
         <DockerSection>
-          <DockerSectionHeader>🐳 Docker Containers</DockerSectionHeader>
+          <DockerSectionHeader>🐳 VM Containers</DockerSectionHeader>
 
-          <DockerGrid>
-            {containers.map((container) => (
-              <CardDocker key={container.id} container={container} />
-            ))}
-          </DockerGrid>
+          <DockerDiagram>
+            {dockerHost && (
+              <DockerHostContainer>
+                <Card service={dockerHost} />
+              </DockerHostContainer>
+            )}
+
+            <DockerConnection />
+
+            <DockerConnectionRow />
+
+            <DockerGrid>
+              {containers.map((container) => (
+                <CardDocker key={container.id} container={container} />
+              ))}
+            </DockerGrid>
+          </DockerDiagram>
         </DockerSection>
       </Container>
     </Page>

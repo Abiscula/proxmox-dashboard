@@ -62,3 +62,44 @@ export const DockerGrid = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1rem;
 `;
+
+export const DockerHostContainer = styled.div`
+  display: grid;
+
+  justify-content: center;
+
+  margin-bottom: 48px;
+
+  & > div {
+    width: 308px;
+  }
+`;
+
+export const DockerDiagram = styled.div`
+  position: relative;
+`;
+
+export const DockerConnection = styled.div`
+  width: 2px;
+  height: 32px;
+  background: ${({ theme }) => theme.colors.docker.border};
+  margin: 0 auto;
+`;
+
+export const DockerConnectionRow = styled.div`
+  position: relative;
+  width: 100%;
+  height: 24px;
+  margin-bottom: 24px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    height: 2px;
+    background: ${({ theme }) => theme.colors.docker.border};
+  }
+`;
