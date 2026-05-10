@@ -18,7 +18,7 @@ export async function handleGetContainers(_: Request, response: Response) {
 
 export async function handleGetMemoryInfo(_: Request, response: Response) {
   try {
-    const memoryInfo = getMemoryInfo();
+    const memoryInfo = await getMemoryInfo();
 
     response.json(memoryInfo);
   } catch (error) {
