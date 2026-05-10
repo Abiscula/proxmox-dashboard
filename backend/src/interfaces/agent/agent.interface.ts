@@ -5,3 +5,8 @@ export interface IDockerContainer {
   state: string;
   status: string;
 }
+
+export interface IMemoryInfo {
+  totalMemoryMB: number;
+  usedMemoryMB: number;
+}
