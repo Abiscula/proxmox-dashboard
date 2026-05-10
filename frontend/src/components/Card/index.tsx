@@ -1,9 +1,5 @@
-import { DOCKER_VM_ID } from "../../constants";
-
 import { formatServiceType } from "../../formatter/formatServiceType";
-
 import { formatUptime } from "../../formatter/formatUptime";
-
 import type { IService } from "../../interfaces";
 
 import {
@@ -33,11 +29,7 @@ export default function Card({ service }: Props) {
   };
 
   const resolveTotalMemory = (): string => {
-    const shouldShowTotalMemory =
-      service.type === "container" ||
-      (service.type === "vm" && service.id === DOCKER_VM_ID);
-
-    if (!shouldShowTotalMemory || !service.totalMemory) {
+    if (!service.totalMemory) {
       return "";
     }
 
