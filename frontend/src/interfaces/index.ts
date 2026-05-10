@@ -9,6 +9,7 @@ export interface IService {
   status: ServiceStatus;
   cpu: number;
   memory: number;
+  totalMemory?: number;
   uptime: number;
   redirectUrl?: string | null;
   diskUsage: number;

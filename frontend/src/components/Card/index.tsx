@@ -1,3 +1,4 @@
+import { DOCKER_VM_ID } from "../../constants";
 import { formatServiceType } from "../../formatter/formatServiceType";
 import { formatUptime } from "../../formatter/formatUptime";
 
@@ -35,6 +36,18 @@ export default function Card({
     window.open(service.redirectUrl, "_blank");
   };
 
+  const resolveTotalMemory = (): string => {
+    const shouldShowTotalMemory =
+      service?.type === "container" ||
+      (service?.type === "vm" && service.id === DOCKER_VM_ID);
+
+    if (!shouldShowTotalMemory || !service?.totalMemory) {
+      return "";
+    }
+
+    return ` / ${service.totalMemory}`;
+  };
+
   if (variant === "docker" && container) {
     return (
       <CardContainer variant="docker">
@@ -70,7 +83,9 @@ export default function Card({
         <Metric>ID: {service.id}</Metric>
         <Metric>Tipo: {formatServiceType(service.type)}</Metric>
         <Metric>CPU: {service.cpu}%</Metric>
-        <Metric>Memória RAM: {service.memory} MB</Metric>
+        <Metric>
+          Memória RAM: {service.memory} {resolveTotalMemory()} MB
+        </Metric>
         <Metric>Uptime: {formatUptime(service.uptime)}</Metric>
 
         <DiskContainer>
