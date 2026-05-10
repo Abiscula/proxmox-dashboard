@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo "Atualizando código..."
 git pull
 
@@ -18,12 +20,12 @@ fi
 echo "Limpando imagens antigas..."
 docker image prune -f
 
-if echo "$CHANGED_FILES" | grep -q "^agent/"; then
-  echo "Atualizando agent..."
 
-  ./agent/deploy-agent.sh
+echo "Atualizando agent..."
 
-  sudo systemctl restart proxmox-agent
-fi
+./agent-go/deploy-agent-go.sh
+
+sudo systemctl restart proxmox-agent
+
 
 echo "Deploy finalizado com sucesso!"
