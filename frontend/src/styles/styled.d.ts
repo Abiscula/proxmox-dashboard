@@ -27,6 +27,7 @@ declare module "styled-components" {
         primaryHover: string;
         primaryActive: string;
         darkBtn: string;
+        darkBtnHover: string;
       };
 
       docker: {

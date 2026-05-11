@@ -24,6 +24,7 @@ export const theme = {
       primaryHover: "#321DB4",
       primaryActive: "#17ACFF",
       darkBtn: "#434345",
+      darkBtnHover: "#535355",
     },
 
     docker: {
