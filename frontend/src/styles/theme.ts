@@ -4,6 +4,10 @@ export const theme = {
     surface: "#1A2424",
     border: "#2a2d34",
 
+    header: {
+      background: "rgba(5, 10, 15, 0.92)232",
+    },
+
     text: {
       primary: "#e5e7eb",
       secondary: "#9ca3af",
@@ -19,6 +23,7 @@ export const theme = {
       primary: "#2C199C",
       primaryHover: "#321DB4",
       primaryActive: "#17ACFF",
+      darkBtn: "#434345",
     },
 
     docker: {

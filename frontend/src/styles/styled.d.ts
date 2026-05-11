@@ -7,6 +7,10 @@ declare module "styled-components" {
       surface: string;
       border: string;
 
+      header: {
+        background: string;
+      };
+
       text: {
         primary: string;
         secondary: string;
@@ -22,6 +26,7 @@ declare module "styled-components" {
         primary: string;
         primaryHover: string;
         primaryActive: string;
+        darkBtn: string;
       };
 
       docker: {
