@@ -25,6 +25,8 @@ import {
   DockerHostContainer,
   DockerConnection,
   DockerConnectionRow,
+  HeaderLeft,
+  HeaderRight,
 } from "./styles";
 import Card from "../../components/Card";
 import { orderServices } from "../../helper/orderServices";
@@ -97,17 +99,23 @@ export default function Dashboard() {
 
   return (
     <Page>
-      <Header
-        onClick={() => {
-          window.open(PROXMOX_URL, "_blank");
-        }}
-      >
-        <ProxmoxIcon size={42} />
-        <Title>Homelab Dashboard</Title>
+      <Header>
+        <HeaderLeft
+          onClick={() => {
+            window.open(PROXMOX_URL, "_blank");
+          }}
+        >
+          <ProxmoxIcon size={42} />
+
+          <Title>Homelab Dashboard</Title>
+        </HeaderLeft>
+
+        <HeaderRight>
+          <QuickAccessBar />
+        </HeaderRight>
       </Header>
       <Container>
         <Overview data={overviewData} />
-        <QuickAccessBar />
 
         {services.length === 0 ? (
           <EmptyState>Carregando serviços...</EmptyState>

@@ -14,26 +14,41 @@ export const Container = styled.div`
 export const Header = styled.div`
   position: sticky;
   top: 0;
-
   width: 100%;
-  height: 90px;
+  min-height: 90px;
   display: flex;
-  flex-direction: row;
   align-items: center;
-
-  gap: 8px;
-  padding: 0 48px;
-  cursor: pointer;
+  gap: 16px;
+  padding: 16px 48px;
   z-index: 1000;
   backdrop-filter: blur(16px);
   background: rgba(5, 10, 15, 0.92);
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    padding: 16px 20px;
+  }
+`;
+
+export const HeaderLeft = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+export const HeaderRight = styled.div`
+  margin-left: auto;
 `;
 
 export const Title = styled.h1`
   font-size: 1.8rem;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.text.primary};
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 export const Grid = styled.div`

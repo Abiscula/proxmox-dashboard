@@ -6,7 +6,6 @@ import TailscaleIcon from "../Icons/TailscaleIcon";
 
 import {
   Container,
-  Header,
   ServiceButton,
   ServicesContainer,
   StatusIndicator,
@@ -42,8 +41,6 @@ export default function QuickAccessBar() {
 
   return (
     <Container>
-      <Header>Services:</Header>
-
       <ServicesContainer>
         {services.map((service) => (
           <ServiceButton
