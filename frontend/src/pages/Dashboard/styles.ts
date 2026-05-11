@@ -63,25 +63,6 @@ export const EmptyState = styled.div`
   ${({ theme }) => theme.colors.text.secondary}
 `;
 
-export const DockerSection = styled.section`
-  margin-top: 3rem;
-`;
-
-export const DockerSectionHeader = styled.div`
-  display: flex;
-  align-items: center;
-
-  margin-bottom: 24px;
-  padding-bottom: 16px;
-
-  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-
-  font-size: 1.1rem;
-  font-weight: 600;
-
-  color: ${({ theme }) => theme.colors.text.primary};
-`;
-
 export const DockerGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -90,9 +71,7 @@ export const DockerGrid = styled.div`
 
 export const DockerHostContainer = styled.div`
   display: grid;
-
   justify-content: center;
-
   margin-bottom: 48px;
 
   & > div {
@@ -126,5 +105,37 @@ export const DockerConnectionRow = styled.div`
     width: 70%;
     height: 2px;
     background: ${({ theme }) => theme.colors.docker.border};
+  }
+`;
+
+export const TabsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin: 32px 0 24px;
+`;
+
+export const TabButton = styled.button<{
+  $active: boolean;
+}>`
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: 0.2s ease;
+  background: ${({ theme, $active }) =>
+    $active ? theme.colors.action.darkBtn : theme.colors.surface};
+
+  color: ${({ theme }) => theme.colors.text.primary};
+
+  border: 1px solid
+    ${({ theme, $active }) =>
+      $active ? theme.colors.action.darkBtn : theme.colors.border};
+
+  &:hover {
+    transform: translateY(-1px);
   }
 `;

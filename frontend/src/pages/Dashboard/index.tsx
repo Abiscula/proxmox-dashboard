@@ -18,8 +18,6 @@ import {
   Grid,
   EmptyState,
   Title,
-  DockerSection,
-  DockerSectionHeader,
   DockerGrid,
   DockerDiagram,
   DockerHostContainer,
@@ -27,6 +25,8 @@ import {
   DockerConnectionRow,
   HeaderLeft,
   HeaderRight,
+  TabButton,
+  TabsContainer,
 } from "./styles";
 import Card from "../../components/Card";
 import { orderServices } from "../../helper/orderServices";
@@ -42,6 +42,7 @@ export default function Dashboard() {
   const [services, setServices] = useState<IService[]>([]);
   const [overviewData, setOverviewData] = useState<IOverviewData>();
   const [containers, setContainers] = useState<IDockerContainer[]>([]);
+  const [activeTab, setActiveTab] = useState<"infra" | "docker">("infra");
 
   /**
    * Faz a carga inicial do dashboard via REST.
@@ -117,18 +118,37 @@ export default function Dashboard() {
       <Container>
         <Overview data={overviewData} />
 
-        {services.length === 0 ? (
-          <EmptyState>Carregando serviços...</EmptyState>
-        ) : (
-          <Grid>
-            {filteredServices.map((service) => (
-              <Card key={service.id} service={service} />
-            ))}
-          </Grid>
-        )}
-        <DockerSection>
-          <DockerSectionHeader>🐳 VM Containers</DockerSectionHeader>
+        <TabsContainer>
+          <TabButton
+            $active={activeTab === "infra"}
+            onClick={() => setActiveTab("infra")}
+          >
+            Infraestrutura
+          </TabButton>
 
+          <TabButton
+            $active={activeTab === "docker"}
+            onClick={() => setActiveTab("docker")}
+          >
+            Docker
+          </TabButton>
+        </TabsContainer>
+
+        {activeTab === "infra" && (
+          <>
+            {services.length === 0 ? (
+              <EmptyState>Carregando serviços...</EmptyState>
+            ) : (
+              <Grid>
+                {filteredServices.map((service) => (
+                  <Card key={service.id} service={service} />
+                ))}
+              </Grid>
+            )}
+          </>
+        )}
+
+        {activeTab === "docker" && (
           <DockerDiagram>
             {dockerHost && (
               <DockerHostContainer>
@@ -146,7 +166,7 @@ export default function Dashboard() {
               ))}
             </DockerGrid>
           </DockerDiagram>
-        </DockerSection>
+        )}
       </Container>
     </Page>
   );
