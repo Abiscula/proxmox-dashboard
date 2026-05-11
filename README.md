@@ -1,116 +1,219 @@
-# Proxmox Dashboard API
+# Proxmox Dashboard
 
-Aplicação desenvolvida para consumo próprio com o objetivo de centralizar e simplificar a visualização dos recursos do meu servidor local baseado em Proxmox.
+Aplicação fullstack desenvolvida para consumo próprio com o objetivo de centralizar e simplificar o monitoramento da minha infraestrutura local baseada em Proxmox.
+
+O projeto combina:
+
+- Backend em Node.js + TypeScript
+- Frontend em React
+- Agent dedicado em Go rodando diretamente na VM Docker Host
 
 ---
 
 ## Preview
 
 <div align="center">
-  <img src="./frontend/src/assets/projeto.jpeg" width="800"/>
+  <img src="./frontend/src/assets/projeto.jpg" width="800"/>
 </div>
 
 ---
 
-## Sobre o projeto
+# Sobre o projeto
 
-Este projeto consiste em uma aplicação fullstack com backend em Node.js + TypeScript e frontend em React, que consome a API do Proxmox e apresenta os dados em um dashboard personalizado.
+O dashboard abstrai a complexidade da API do Proxmox e apresenta os recursos da infraestrutura de forma visual, organizada e em tempo real.
 
-A ideia principal é abstrair a complexidade da API do Proxmox e fornecer uma visualização simples, padronizada e de fácil leitura para monitoramento do ambiente.
+Além das informações tradicionais de VMs e Containers LXC, o projeto também integra métricas e gerenciamento de containers Docker através de um agent customizado escrito em Go.
 
----
-
-## Objetivo
-
-- Unificar dados de VMs e Containers (LXC)
-- Normalizar o formato de resposta
-- Exibir os dados em um dashboard visual
-- Criar uma camada intermediária entre o Proxmox e aplicações customizadas
+A ideia principal é possuir uma camada intermediária simples e personalizada para monitoramento do homelab.
 
 ---
 
-## Arquitetura
+# Funcionalidades
 
-O projeto segue uma estrutura simples e escalável:
-
-- **backend/**
-  - **routes** → definição dos endpoints
-  - **controllers** → controle das requisições HTTP
-  - **services** → integração com a API do Proxmox
-  - **interfaces** → tipagem com TypeScript
-  - **guards** → validação de respostas externas
-
-- **frontend/**
-  - **components** → componentes reutilizáveis (ex: Card)
-  - **pages** → páginas da aplicação (ex: Dashboard)
-  - **services** → consumo da API
-  - **formatter/helpers** → formatação e manipulação de dados
+- Visualização de VMs e Containers (LXC)
+- Monitoramento de CPU, RAM e Disco
+- Dashboard em tempo real via SSE
+- Visualização de containers Docker
+- Estrutura visual separada por abas
+- Topologia visual do Docker Host
+- Quick Access para serviços internos
+- Integração direta com Proxmox VE
+- Deploy automatizado via GitHub Actions
 
 ---
 
-## Endpoints
+# Arquitetura
 
-A API disponibiliza os seguintes endpoints:
+O projeto é dividido em três partes principais:
 
-```ts
-"/api/dashboard";
-"/api/overview";
-"/api/services-status";
+```text
+frontend/
+backend/
+agent-go/
 ```
 
 ---
 
-## Tecnologias utilizadas
+# Frontend (React)
 
-- Node.js
-- TypeScript
-- Express
-- node-fetch
-- dotenv
+Responsável pela interface visual do dashboard.
+
+## Estrutura
+
+```text
+frontend/src/
+├── components/
+├── pages/
+├── services/
+├── formatter/
+├── helper/
+├── interfaces/
+└── styles/
+```
+
+## Tecnologias
+
 - React
+- TypeScript
 - Vite
 - styled-components
 
 ---
 
-## Segurança
+# Backend (Node.js + TypeScript)
 
-Essa aplicação foi desenvolvida para uso em ambiente local e privado, sendo acessada apenas através de rede interna/VPN.
+Responsável por:
 
-Não possui autenticação própria por design, assumindo que o acesso já está protegido por infraestrutura de rede (ex: VPN).
+- integração com API do Proxmox
+- normalização dos dados
+- regras de negócio
+- SSE
+- integração com o Agent Go
+
+## Estrutura
+
+```text
+backend/src/
+├── controllers/
+├── routes/
+├── services/
+├── mappers/
+├── helpers/
+├── guards/
+├── interfaces/
+└── constants/
+```
+
+## Tecnologias
+
+- Node.js
+- Express
+- TypeScript
+- node-fetch
+- dotenv
 
 ---
 
-## Observações
+# Agent Go
 
-- Projeto voltado exclusivamente para uso pessoal
-- Não foi pensado inicialmente para produção pública
-- Tipagens e validações foram implementadas para maior segurança e previsibilidade
-- Frontend e backend estão organizados em um único repositório (monorepo simples)
+O projeto possui um agent dedicado escrito em Go rodando diretamente dentro da VM responsável pelos containers Docker.
+
+Esse agent foi criado para expor informações que o Proxmox não fornece corretamente ou de forma precisa para esse cenário específico.
+
+Atualmente ele é responsável por:
+
+- Listagem de containers Docker
+- Informações reais de memória da Docker Host VM
+- Exposição de endpoints HTTP locais
+
+## Estrutura
+
+```text
+agent-go/
+├── controllers/
+├── routes/
+├── services/
+├── helpers/
+└── types/
+```
+
+## Tecnologias
+
+- Go
+- Gin
+- Docker SDK for Go
 
 ---
 
-## Atualização em tempo real
+# Endpoints
 
-A aplicação utiliza **Server-Sent Events (SSE)** para atualização automática dos dados do dashboard em tempo real.
+## Backend
 
-As informações de status e recursos dos serviços são atualizadas periodicamente sem necessidade de refresh manual da página, garantindo uma visualização mais dinâmica do ambiente.
-
-Atualmente os dados são sincronizados a cada **5 segundos**.
+```ts
+"/api/dashboard";
+"/api/overview";
+"/api/services-status";
+"/api/agent/containers";
+```
 
 ---
 
-## Deploy automático (CI/CD)
+## Agent Go
 
-O projeto possui deploy automatizado utilizando GitHub Actions com Self-Hosted Runner hospedado na própria infraestrutura local.
+```ts
+"/docker/containers";
+"/system/memory";
+```
 
-A cada `push` realizado na branch principal:
+---
 
-- O workflow é executado automaticamente
-- O runner dispara o script de deploy no servidor
-- Os containers Docker são rebuildados apenas quando necessário (frontend/backend)
+# Atualização em tempo real
 
-Fluxo simplificado:
+A aplicação utiliza Server-Sent Events (SSE) para atualização automática dos dados do dashboard.
+
+As informações são sincronizadas periodicamente sem necessidade de refresh manual da página.
+
+Atualmente:
+
+- Dashboard → atualização em tempo real
+- Serviços → sincronização automática
+- Infraestrutura → monitoramento contínuo
+
+---
+
+# Docker
+
+Frontend e backend são executados via Docker Compose.
+
+Fluxo atual:
+
+```text
+Frontend (React)
+        ↓
+Backend API (Node.js)
+        ↓
+Proxmox API
+        ↓
+Agent Go
+        ↓
+Docker Engine
+```
+
+<div align="center">
+  <img src="./frontend/src/assets/projeto-2.jpg" width="800"/>
+</div>
+
+---
+
+# Deploy automático (CI/CD)
+
+O projeto possui deploy automatizado utilizando:
+
+- GitHub Actions
+- Self-Hosted Runner
+- Docker Compose
+
+Fluxo:
 
 ```text
 git push
@@ -123,3 +226,36 @@ deploy.sh
    ↓
 Docker Compose
 ```
+
+O script de deploy:
+
+- atualiza o repositório
+- rebuilda apenas os serviços alterados
+- atualiza o Agent Go
+- reinicia automaticamente os serviços necessários
+
+---
+
+# Segurança
+
+Essa aplicação foi desenvolvida exclusivamente para ambiente privado/local.
+
+O acesso é protegido pela própria infraestrutura de rede:
+
+- VPN
+- Rede local
+- Reverse Proxy interno
+
+A aplicação não possui autenticação própria por design.
+
+---
+
+# Observações
+
+- Projeto voltado para uso pessoal
+- Estrutura simples e pragmática
+- Foco em legibilidade e monitoramento rápido
+- Não possui objetivo comercial
+- Algumas regras são específicas da infraestrutura atual do homelab
+
+---
