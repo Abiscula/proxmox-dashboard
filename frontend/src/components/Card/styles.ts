@@ -79,13 +79,9 @@ export const DiskBar = styled.div`
 
 export const DiskBarFill = styled.div<{ usage: number }>`
   height: 100%;
-
   width: ${({ usage }) => usage}%;
-
   border-radius: 999px;
-
   transition: width 0.3s ease;
-
   background: ${({ theme, usage }) => {
     if (usage >= 90) return theme.colors.status.stopped;
 
@@ -97,9 +93,7 @@ export const DiskBarFill = styled.div<{ usage: number }>`
 
 export const ActionsContainer = styled.div`
   margin-top: 12px;
-
   display: flex;
-
   justify-content: flex-end;
 `;
 
@@ -111,14 +105,14 @@ export const AccessButton = styled.button`
   font-weight: 600;
   cursor: pointer;
   transition: 0.2s;
-  background: ${({ theme }) => theme.colors.action.primaryHover};
+  background: ${({ theme }) => theme.colors.action.darkBtn};
   color: white;
 
   &:hover {
-    background: ${({ theme }) => theme.colors.action.primaryHover};
+    background: ${({ theme }) => theme.colors.action.darkBtnHover};
   }
 
   &:active {
-    background: ${({ theme }) => theme.colors.action.primaryActive};
+    background: ${({ theme }) => theme.colors.action.darkBtnHover};
   }
 `;
