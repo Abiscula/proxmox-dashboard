@@ -2,7 +2,14 @@
 
 Aplicação fullstack desenvolvida para consumo próprio com o objetivo de centralizar e simplificar o monitoramento da minha infraestrutura local baseada em Proxmox.
 
-O projeto combina:
+#### Infra atual:
+
+<div align="center">
+  <img src="./frontend/src/assets/infra.jpg" width="800"/>
+</div>
+<br>
+
+#### O projeto combina:
 
 - Backend em Node.js + TypeScript
 - Frontend em React
